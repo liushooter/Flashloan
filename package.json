@@ -1,0 +1,18 @@
+{
+  "name": "FlashSwapForCofixAndUniswap",
+  "version": "0.0.1",
+  "main": "index.js",
+  "repository": "https://github.com/liushooter/FlashSwapForCofixAndUniswap",
+  "author": "Rebase Team",
+  "license": "BSD-3-Clause",
+  "dependencies": {
+    "hardhat": "^2.0.5"
+  },
+  "devDependencies": {
+    "@nomiclabs/hardhat-ethers": "^2.0.0",
+    "@nomiclabs/hardhat-waffle": "^2.0.0",
+    "chai": "^4.2.0",
+    "ethereum-waffle": "^3.0.0",
+    "ethers": "^5.0.0"
+  }
+}
