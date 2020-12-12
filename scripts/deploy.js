@@ -1,9 +1,9 @@
 async function main() {
-  const FlashSwap = await ethers.getContractFactory("FlashSwap");
+  const DydxFlashloaner = await ethers.getContractFactory("DydxFlashloaner");
 
-  const flashSwap = await FlashSwap.deploy();
+  const dydxFlashloaner = await DydxFlashloaner.deploy();
 
-  console.log("contract deployed to:", flashSwap.address);
+  console.log("contract deployed to:", dydxFlashloaner.address);
 }
 
 main()

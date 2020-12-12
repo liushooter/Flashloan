@@ -6,6 +6,8 @@
   "author": "Rebase Team",
   "license": "BSD-3-Clause",
   "dependencies": {
+    "@openzeppelin/contracts": "^3.3.0",
+    "dotenv": "^8.2.0",
     "hardhat": "^2.0.5"
   },
   "devDependencies": {
@@ -14,5 +16,9 @@
     "chai": "^4.2.0",
     "ethereum-waffle": "^3.0.0",
     "ethers": "^5.0.0"
+  },
+  "scripts": {
+    "deploy:dev": "npx hardhat run scripts/deploy.js",
+    "deploy:testnet": "npx hardhat run scripts/deploy.js --network kovan"
   }
 }
