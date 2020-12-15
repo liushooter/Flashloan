@@ -18,6 +18,7 @@
     "ethers": "^5.0.0"
   },
   "scripts": {
+    "build": "npx hardhat compile",
     "deploy:dev": "npx hardhat run scripts/deploy.js",
     "deploy:testnet": "npx hardhat run scripts/deploy.js --network kovan"
   }

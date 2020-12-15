@@ -1,21 +1,53 @@
 pragma solidity 0.6.12;
 pragma experimental ABIEncoderV2;
 
-import "hardhat/console.sol";
-
 import "./lib/DydxFlashloanBase.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
-contract DydxFlashloaner is DydxFlashloanBase {
-    address WETHAddr = 0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2;
-    address dydxAddr = 0x1E0447b19BB6EcFdAe1e4AE1694b0C3659614e4e;
+interface WETH9 {
+    function deposit() external payable;
+    function withdraw(uint wad) external;
+}
 
-    address kovanDydxSoloMarginAddr = 0x4EC3570cADaAEE08Ae384779B0f3A45EF85289DE;
-    address kovanWETHAddr = 0xd0A1E359811322d97991E03f863a0C30C2cF029C;
+contract DydxFlashloaner is DydxFlashloanBase {
+    address public owner;
+
+    address public dydxSoloMarginAddr = 0x1E0447b19BB6EcFdAe1e4AE1694b0C3659614e4e;
+    address public WETHAddr = 0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2;
+
+    address public kovanDydxSoloMarginAddr = 0x4EC3570cADaAEE08Ae384779B0f3A45EF85289DE;
+    address public kovanWETHAddr = 0xd0A1E359811322d97991E03f863a0C30C2cF029C;
+
+    constructor() public {
+        owner = msg.sender;
+    }
 
     struct MyCustomData {
         address token;
         uint256 repayAmount;
+    }
+
+    function callFunction(
+        address sender,
+        Account.Info memory account,
+        bytes memory data
+    ) public {
+        MyCustomData memory mcd = abi.decode(data, (MyCustomData));
+        uint256 balOfLoanedToken = IERC20(mcd.token).balanceOf(address(this));
+
+        // Note that you can ignore the line below
+        // if your dydx account (this contract in this case)
+        // has deposited at least ~2 Wei of assets into the account
+        // to balance out the collaterization ratio
+
+        WETH9(kovanWETHAddr).deposit{value: balOfLoanedToken.add(2)};
+        uint256 newBal = IERC20(mcd.token).balanceOf(address(this));
+
+        require(
+            newBal >= mcd.repayAmount,
+            "Not enough funds to repay dydx loan!"
+        );
+
     }
 
     // _solo  = dydxAddr
