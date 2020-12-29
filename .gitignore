@@ -110,3 +110,4 @@ cache
 artifacts
 
 .env
+.DS_Store
